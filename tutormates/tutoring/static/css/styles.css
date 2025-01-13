@@ -1,0 +1,63 @@
+/* Personalización de la barra de navegación */
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .full-screen-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  .text-center {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .d-flex {
+    height: 100vh; /* Asegura que el contenedor de texto ocupe toda la altura de la pantalla */
+  }
+.navbar-custom {
+    background-color: #013750;
+    height: 80px; /* Incrementa la altura de la barra */
+}
+
+.navbar-custom .navbar-brand {
+    font-size: 1.5rem;
+    color: white;
+}
+
+.navbar-custom .navbar-nav .nav-link {
+    color: white;
+}
+
+.navbar-custom .navbar-brand img {
+    width: 50px; /* Aumenta ligeramente el tamaño del logo */
+    height: 50px;
+}
+
+.footer-custom {
+    background-color: #013750;
+    color: white;
+}
+
+.custom-greeting {
+    color: white;
+}
+
+
+/* Fondo de pantalla para la página de inicio */
+body {
+    background-image: url("{% static 'images/fondoInicio.png' %}");
+    background-size: cover; /* Para cubrir toda la pantalla */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* No repite la imagen */
+}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Tutorias{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Tutorías</h1>
+    <lu>
+        {% for tutoria in tutorias %}
+            <strong>{{ tutoria.titulo }}</strong><br>
+            {{ tutoria.descripcion }}<br>
+            <em>Tutor: {{ tutoria.tutor.nombre }} {{ tutoria.tutor.apellido }}</em>
+            <br>
+        {% empty %}
+
+            <li>No hay tutorias disponibles</li>
+
+        {% endfor %}
+    </lu>
+        
+        
+        
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Inicio de sesión{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h1 class="text-center">Iniciar Sesión</h1>
+        {% if form.errors %}
+            <div class="alert alert-danger">El nombre de usuario o la contraseña son incorrectos.</div>
+        {% else %}
+            <p class="text-muted text-center">Por favor, llena el formulario para iniciar sesión.</p>
+        {% endif %}
+        <form action="{% url 'login' %}" method="POST" class="mt-4">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="hidden" name="next" value="{{ next }}">
+            <button type="submit" class="btn btn-primary w-100">Iniciar sesión</button>
+        </form>
+        <a href="{% url 'register' %}">
+            Registrate aquí
+        </a>
+    </div>
+</div>
+{% endblock %}

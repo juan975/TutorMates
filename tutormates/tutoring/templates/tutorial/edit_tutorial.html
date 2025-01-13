@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Tutoría{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Editar Tutoría</h1>
+
+    <div class="card">
+        <div class="card-header">Modificar Información de la Tutoría</div>
+        <div class="card-body">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                <a href="{% url 'crear_tutoria' %}" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

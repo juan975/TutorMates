@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{% url 'inicio' %}">
+                <img src="{% static 'images/logoTutormates.png' %}" alt="TutorMates Logo" class="d-inline-block align-text-top me-2">
+                TutorMates
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Control de inicio y cerrado de sesión -->
+                {% if request.user.is_authenticated %}
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link {% if section == 'inicio' %}active{% endif %}" aria-current="page" href="{% url 'inicio' %}">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if section == 'tutorias' %}active{% endif %}" aria-current="page" href="{% url 'tutorias' %}">Tutorias</a>
+                        </li>
+                        {% if request.user.role == 'tutor' %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if section == 'crear_tutorias' %}active{% endif %}" href="{% url 'crear_tutoria' %}">Crear Tutorías</a>
+                        </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if section == 'perfil' %}active{% endif %}" href="{% url 'perfil' %}">Perfil</a>
+                        </li>
+                    </ul>
+                    <span class="navbar-text">
+                        Hola {{ request.user.first_name|default:request.user.username }},
+                        <form action="{% url 'logout' %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-success btn-sm">Cerrar sesión</button>
+                        </form>
+                    </span>
+                </div>
+                
+                {% else %}
+                <div class="navbar-nav">
+                    <a class="nav-link" href="{% url 'login' %}">Iniciar sesión</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido -->
+    <div class="container py-5">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-3 bg-light">
+        <p class="mb-0">&copy; 2025 TutorMates. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoFYe7g1G6jqRLXz9d7zL+5OqUHAo0GBi3vn5J0WJUR8w4k" crossorigin="anonymous"></script>
+</body>
+</html>
