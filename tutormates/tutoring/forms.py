@@ -1,5 +1,5 @@
 from django import forms 
-from .models import User, Profile, Tutoria
+from .models import User, Profile, Tutoria, Role
 
 class LoginForm(forms.Form):
     username = forms.CharField()
@@ -8,11 +8,11 @@ class LoginForm(forms.Form):
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Repite la contraseña', widget=forms.PasswordInput)
-    role = forms.ChoiceField(choices=User.ROLE_CHOICES, label="Rol")
+    role = forms.ChoiceField(choices=Role.ROLE_CHOICES, label="Rol")  # Opciones de rol basadas en Role
 
     class Meta:
         model = User
-        fields = ['username', 'nombre', 'apellido', 'email', 'role']
+        fields = ['username', 'nombre', 'apellido', 'email']
 
     def clean_password2(self):
         password = self.cleaned_data.get('password')
@@ -20,6 +20,17 @@ class UserRegistrationForm(forms.ModelForm):
         if password != password2:
             raise forms.ValidationError("Las contraseñas no coinciden.")
         return password2
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        password = self.cleaned_data['password']
+        role_type = self.cleaned_data['role']  # Obtén el rol del formulario
+        user.set_password(password)
+        if commit:
+            user.save()
+            # Crea el rol asociado
+            Role.objects.create(user=user, role_type=role_type)
+        return user
     
 class UserEditForm(forms.ModelForm):
     class Meta:

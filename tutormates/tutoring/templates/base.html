@@ -21,35 +21,29 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <!-- Control de inicio y cerrado de sesión -->
                 {% if request.user.is_authenticated %}
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link {% if section == 'inicio' %}active{% endif %}" aria-current="page" href="{% url 'inicio' %}">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% if section == 'tutorias' %}active{% endif %}" aria-current="page" href="{% url 'tutorias' %}">Tutorias</a>
-                        </li>
-                        {% if request.user.role == 'tutor' %}
-                        <li class="nav-item">
-                            <a class="nav-link {% if section == 'crear_tutorias' %}active{% endif %}" href="{% url 'crear_tutoria' %}">Crear Tutorías</a>
-                        </li>
-                        {% endif %}
-                        <li class="nav-item">
-                            <a class="nav-link {% if section == 'perfil' %}active{% endif %}" href="{% url 'perfil' %}">Perfil</a>
-                        </li>
-                    </ul>
-                    <span class="navbar-text">
-                        Hola {{ request.user.first_name|default:request.user.username }},
-                        <form action="{% url 'logout' %}" method="post" class="d-inline">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-success btn-sm">Cerrar sesión</button>
-                        </form>
-                    </span>
-                </div>
-                
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link {% if section == 'inicio' %}active{% endif %}" aria-current="page" href="{% url 'inicio' %}">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if section == 'tutorias' %}active{% endif %}" aria-current="page" href="{% url 'tutorias' %}">Tutorías</a>
+                    </li>
+                    {% if request.user.role.role_type == 'tutor' %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if section == 'crear_tutorias' %}active{% endif %}" href="{% url 'crear_tutoria' %}">Crear Tutorías</a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if section == 'perfil' %}active{% endif %}" href="{% url 'perfil' %}">Perfil</a>
+                    </li>
+                </ul>
+                <span class="navbar-text">
+                    Hola {{ request.user.first_name|default:request.user.username }},
+                    <form action="{% url 'logout' %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-success btn-sm">Cerrar sesión</button>
+                    </form>
+                </span>
                 {% else %}
                 <div class="navbar-nav">
                     <a class="nav-link" href="{% url 'login' %}">Iniciar sesión</a>

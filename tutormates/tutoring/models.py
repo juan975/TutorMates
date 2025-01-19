@@ -1,12 +1,14 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.conf import settings
+from django.contrib.auth.models import User
 
 #Modelo de usuario
 class User(AbstractUser):
     ROLE_CHOICES = (
         ('tutor', 'Tutor'),
         ('estudiante', 'Estudiante'),
+        ('administrador', 'Administrador'),
     )
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='estudiante')
     nombre = models.CharField(max_length=50)
@@ -60,4 +62,5 @@ class Tutoria(models.Model):
 
     def __str__(self):
         return self.titulo
+
  
