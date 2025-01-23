@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Tutores{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center mb-4">Tutores</h1>
+    <div class="row">
+        {% for tutor in tutores %}
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ tutor.first_name }} {{ tutor.last_name }}</h5>
+                    <p class="card-text">Correo: {{ tutor.email }}</p>
+                    <a href="{% url 'detalle_tutor' tutor.id %}" class="btn btn-primary">Ver Perfil</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

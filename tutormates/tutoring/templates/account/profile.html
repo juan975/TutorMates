@@ -5,8 +5,8 @@
 {% block content %}
 <div class="container">
     <h1>Perfil de {{ profile.user.username }}</h1>
-    <p><strong>Nombre:</strong> {{ profile.user.nombre }}</p>
-    <p><strong>Apellido:</strong> {{ profile.user.apellido }}</p>
+    <p><strong>Nombre:</strong> {{ profile.user.first_name }}</p>
+    <p><strong>Apellido:</strong> {{ profile.user.last_name }}</p>
     <p><strong>Email:</strong> {{ profile.user.email }}</p>
     <p><strong>Biografía:</strong> {{ profile.bio|default:"No especificada" }}</p>
     {% if profile.profile_picture %}

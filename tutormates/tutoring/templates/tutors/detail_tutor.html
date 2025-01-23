@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Perfil del Tutor{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center mb-4">{{ tutor.first_name }} {{ tutor.last_name }}</h1>
+
+    <div class="row mb-4">
+        <div class="col-md-4">
+            {% if tutor.profile.profile_picture %}
+            <img src="{{ tutor.profile.profile_picture.url }}" alt="Imagen de perfil" class="img-thumbnail">
+            {% else %}
+            <p>Sin imagen de perfil</p>
+            {% endif %}
+        </div>
+        <div class="col-md-8">
+            <p><strong>Correo Electrónico:</strong> {{ tutor.email }}</p>
+            <p><strong>Biografía:</strong> {{ tutor.profile.bio }}</p>
+        </div>
+    </div>
+
+    <h2 class="mb-3">Tutorías Creadas</h2>
+    <ul>
+        {% for tutoria in tutorias %}
+        <li>
+            <a href="{% url 'detalle_tutoria' tutoria.id %}">{{ tutoria.titulo }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

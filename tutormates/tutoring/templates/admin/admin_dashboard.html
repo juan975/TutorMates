@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Panel de Administración{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center mb-4">Panel de Administración</h1>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h3>Usuarios</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for usuario in usuarios %}
+                    <tr>
+                        <td>{{ usuario.username }}</td>
+                        <td>{{ usuario.first_name }} {{ usuario.last_name }}</td>
+                        <td>{{ usuario.email }}</td>
+                        <td>{{ usuario.rol }}</td>
+                        <td>
+                            <a href="{% url 'editar_usuario_admin' usuario.id %}" class="btn btn-primary btn-sm">Editar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-6">
+            <h3>Tutorías</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Tutor</th>
+                        <th>Categoría</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tutoria in tutorias %}
+                    <tr>
+                        <td>{{ tutoria.titulo }}</td>
+                        <td>{{ tutoria.tutor }}</td>
+                        <td>{{ tutoria.categoria }}</td>
+                        <td>
+                            <a href="{% url 'editar_tutoria_admin' tutoria.id %}" class="btn btn-primary btn-sm">Editar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h3>Categorías</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for categoria in categorias %}
+                    <tr>
+                        <td>{{ categoria.nombre }}</td>
+                        <td>{{ categoria.descripcion }}</td>
+                        <td>
+                            <a href="{% url 'editar_categoria' categoria.id %}" class="btn btn-primary btn-sm">Editar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{% url 'crear_categoria' %}" class="btn btn-success">Crear Categoría</a>
+        </div>
+
+        <div class="col-md-6">
+            <h3>Roles</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Visible</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rol in roles %}
+                    <tr>
+                        <td>{{ rol.rol }}</td>
+                        <td>{{ rol.descripcion }}</td>
+                        <td>{{ rol.visible|yesno:"Sí,No" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{% url 'crear_rol' %}" class="btn btn-success">Crear Rol</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

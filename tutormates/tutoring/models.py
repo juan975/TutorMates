@@ -2,13 +2,23 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.conf import settings
 
+#Modelo de rol de usuario
+class Rol(models.Model):
+    rol = models.CharField(max_length=100, unique=True)
+    descripcion = models.TextField(blank=True)
+    visible = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.rol
+
 #Modelo de usuario
 class User(AbstractUser):
-    ROLE_CHOICES = (
-        ('tutor', 'Tutor'),
-        ('estudiante', 'Estudiante'),
+    rol = models.ForeignKey(
+        'Rol',
+        on_delete=models.PROTECT,
+        related_name='tutorias',
+        default=3
     )
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='estudiante')
     nombre = models.CharField(max_length=50)
     apellido = models.CharField(max_length=50)
     
@@ -61,3 +71,14 @@ class Tutoria(models.Model):
     def __str__(self):
         return self.titulo
  
+#Modelo de inscripción
+class Inscripcion(models.Model):
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="inscripciones")
+    tutoria = models.ForeignKey('Tutoria', on_delete=models.CASCADE, related_name="inscripciones")
+    fecha_inscripcion = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('usuario', 'tutoria')
+
+    def __str__(self):
+        return f"{self.usuario.username} inscrito en {self.tutoria.titulo}"

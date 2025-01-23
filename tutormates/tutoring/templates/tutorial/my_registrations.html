@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Mis Inscripciones{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center mb-4">Mis Inscripciones</h1>
+
+    <ul class="list-group">
+        {% for inscripcion in inscripciones %}
+        <li class="list-group-item">
+            <h5>{{ inscripcion.tutoria.titulo }}</h5>
+            <p><strong>Fecha:</strong> {{ inscripcion.tutoria.dia }}</p>
+            <p><strong>Hora:</strong> {{ inscripcion.tutoria.hora }}</p>
+            <a href="{% url 'detalle_tutoria' inscripcion.tutoria.id %}" class="btn btn-link">Ver Detalle</a>
+            <form method="post" action="{% url 'anular_inscripcion' inscripcion.id %}" class="d-inline-block mt-2">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm">Anular Inscripción</button>
+            </form>
+        </li>
+        {% empty %}
+        <li class="list-group-item">No estás inscrito en ninguna tutoría.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Detalle de la Tutoría{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center mb-4">{{ tutoria.titulo }}</h1>
+
+    <div class="row">
+        <div class="col-md-8">
+            <p><strong>Descripción:</strong> {{ tutoria.descripcion }}</p>
+            <p><strong>Fecha:</strong> {{ tutoria.dia }}</p>
+            <p><strong>Hora:</strong> {{ tutoria.hora }}</p>
+            <p><strong>Cupos:</strong> {{ tutoria.cupos }}</p>
+            <p><strong>Categoría:</strong> {{ tutoria.categoria.nombre }}</p>
+            <p><strong>Tutor:</strong> 
+                <a href="{% url 'detalle_tutor' tutoria.tutor.id %}">
+                    {{ tutoria.tutor.first_name }} {{ tutoria.tutor.last_name }}
+                </a>
+            </p>
+        </div>
+        <div class="col-md-4">
+            {% if tutoria.imagen %}
+            <img src="{{ tutoria.imagen.url }}" alt="Imagen de la tutoría" class="img-thumbnail">
+            {% else %}
+            <p>Sin imagen</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
