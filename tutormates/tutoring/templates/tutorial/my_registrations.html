@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Mis Inscripciones{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center mb-4">Mis Inscripciones</h1>
+
+    {% if inscripciones %}
+    <div class="row">
+        {% for inscripcion in inscripciones %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <!-- Imagen de la tutoría -->
+                {% if inscripcion.tutoria.imagen %}
+                    <img src="{{ inscripcion.tutoria.imagen.url }}" class="card-img-top" alt="Imagen de la tutoría">
+                {% else %}
+                    <img src="{% static 'images/default_tutoria.jpg' %}" class="card-img-top" alt="Imagen predeterminada">
+                {% endif %}
+
+                <div class="card-body">
+                    <h5 class="card-title text-center">{{ inscripcion.tutoria.titulo }}</h5>
+                    <p class="card-text"><strong>Fecha:</strong> {{ inscripcion.tutoria.dia }}</p>
+                    <p class="card-text"><strong>Hora:</strong> {{ inscripcion.tutoria.hora }}</p>
+
+                    <!-- Botones -->
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'detalle_tutoria' inscripcion.tutoria.id %}" class="btn btn-info text-white btn-ver-detalle">
+                            <i class="fas fa-eye"></i> Ver Detalle
+                        </a>
+                        <form method="post" action="{% url 'anular_inscripcion' inscripcion.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-anular">
+                                <i class="fas fa-times"></i> Anular
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-warning text-center" role="alert">
+        No estás inscrito en ninguna tutoría.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

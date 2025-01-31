@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Tutores{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center mb-4">Nuestros Tutores</h1>
+    <div class="row">
+        {% for tutor in tutores %}
+        <div class="col-12 mb-4">  <!-- Cada tarjeta ocupa todo el ancho -->
+            <div class="card shadow-lg border-0 rounded p-3">
+                <div class="row align-items-center">
+                    <!-- Imagen del tutor -->
+                    <div class="col-md-3 text-center">
+                        {% if tutor.profile.profile_picture %}
+                            <img src="{{ tutor.profile.profile_picture.url }}" alt="Imagen de tutor" class="tutor-img rounded-circle">
+                        {% else %}
+                            <img src="{% static 'images/default_perfil.jpg' %}" alt="Imagen predeterminada" class="tutor-img rounded-circle">
+                        {% endif %}
+                    </div>
+
+                    <!-- Información del tutor -->
+                    <div class="col-md-9">
+                        <h4 class="card-title">{{ tutor.first_name }} {{ tutor.last_name }}</h4>
+                        <p class="text-muted"><i class="fas fa-envelope"></i> {{ tutor.email }}</p>
+                        <p class="text-dark"><i class="fas fa-info-circle"></i> {{ tutor.profile.bio|default:"No hay descripción disponible." }}</p>
+                        <div class="text-end">
+                            <a href="{% url 'detalle_tutor' tutor.id %}" class="btn btn-custom">Ver Perfil</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <p class="text-muted">No hay tutores disponibles en este momento.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

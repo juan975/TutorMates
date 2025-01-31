@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+
+{% block title %}Panel de Administración{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Panel de Administración</h1>
+
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="sidebar p-3">
+            <nav class="content_sidebar">
+                <h4 class="text-center mb-3">Administración</h4>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link text-white {% if section == 'usuarios' %}active{% endif %}" href="?section=usuarios">
+                            <i class="fas fa-users"></i> Usuarios
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white {% if section == 'tutorias' %}active{% endif %}" href="?section=tutorias">
+                            <i class="fas fa-book"></i> Tutorías
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white {% if section == 'categorias' %}active{% endif %}" href="?section=categorias">
+                            <i class="fas fa-tags"></i> Categorías
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white {% if section == 'roles' %}active{% endif %}" href="?section=roles">
+                            <i class="fas fa-user-shield"></i> Roles
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        
+        <!-- Contenido -->
+        <div class="col-md-9">
+            {% if section == "usuarios" %}
+                <h3>Usuarios</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Rol</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for usuario in usuarios %}
+                        <tr>
+                            <td>{{ usuario.username }}</td>
+                            <td>{{ usuario.first_name }} {{ usuario.last_name }}</td>
+                            <td>{{ usuario.email }}</td>
+                            <td>{{ usuario.rol }}</td> <!-- Asegúrate de que "nombre" sea el campo correcto -->
+                            <td>
+                                <a href="{% url 'editar_usuario_admin' usuario.id %}" class="btn btn-primary btn-sm">Editar</a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center">No hay usuarios disponibles.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <!-- Controles de paginación -->
+                {% if usuarios.has_other_pages %}
+                <nav>
+                    <ul class="pagination">
+                        {% if usuarios.has_previous %}
+                            <li class="page-item"><a class="page-link" href="?usuarios=1">Primero</a></li>
+                            <li class="page-item"><a class="page-link" href="?usuarios={{ usuarios.previous_page_number }}">Anterior</a></li>
+                        {% endif %}
+
+                        <li class="page-item disabled">
+                            <span class="page-link">Página {{ usuarios.number }} de {{ usuarios.paginator.num_pages }}</span>
+                        </li>
+
+                        {% if usuarios.has_next %}
+                            <li class="page-item"><a class="page-link" href="?page_usuarios={{ usuarios.next_page_number }}">Siguiente</a></li>
+                            <li class="page-item"><a class="page-link" href="?page_usuarios={{ usuarios.paginator.num_pages }}">Último</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+
+            {% elif section == "tutorias" %}
+                <h3>Tutorías</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Tutor</th>
+                            <th>Categoría</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for tutoria in tutorias %}
+                        <tr>
+                            <td>{{ tutoria.titulo }}</td>
+                            <td>{{ tutoria.tutor }}</td>
+                            <td>{{ tutoria.categoria }}</td>
+                            <td>
+                                <a href="{% url 'editar_tutoria_admin' tutoria.id %}" class="btn btn-primary btn-sm">Editar</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <nav>
+                    <ul class="pagination">
+                        {% if tutorias.has_previous %}
+                            <li class="page-item"><a class="page-link" href="?page_tutorias=1">Primero</a></li>
+                            <li class="page-item"><a class="page-link" href="?page_tutorias={{ tutorias.previous_page_number }}">Anterior</a></li>
+                        {% endif %}
+                
+                        <li class="page-item disabled">
+                            <span class="page-link">Página {{ tutorias.number }} de {{ tutorias.paginator.num_pages }}</span>
+                        </li>
+                
+                        {% if tutorias.has_next %}
+                            <li class="page-item"><a class="page-link" href="?page_tutorias={{ tutorias.next_page_number }}">Siguiente</a></li>
+                            <li class="page-item"><a class="page-link" href="?page_tutorias={{ tutorias.paginator.num_pages }}">Último</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>                
+
+            {% elif section == "categorias" %}
+                <h3>Categorías</h3>
+                <a href="{% url 'crear_categoria' %}" class="btn btn-success btn-circular">
+                    <i class="fas fa-plus"></i>
+                </a>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for categoria in categorias %}
+                        <tr>
+                            <td>{{ categoria.nombre }}</td>
+                            <td>{{ categoria.descripcion }}</td>
+                            <td>
+                                <a href="{% url 'editar_categoria' categoria.id %}" class="btn btn-primary btn-sm">Editar</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <nav>
+                    <ul class="pagination">
+                        {% if categorias.has_previous %}
+                            <li class="page-item"><a class="page-link" href="?page_categorias=1">Primero</a></li>
+                            <li class="page-item"><a class="page-link" href="?page_categorias={{ categorias.previous_page_number }}">Anterior</a></li>
+                        {% endif %}
+                
+                        <li class="page-item disabled">
+                            <span class="page-link">Página {{ categorias.number }} de {{ categorias.paginator.num_pages }}</span>
+                        </li>
+                
+                        {% if categorias.has_next %}
+                            <li class="page-item"><a class="page-link" href="?page_categorias={{ categorias.next_page_number }}">Siguiente</a></li>
+                            <li class="page-item"><a class="page-link" href="?page_categorias={{ categorias.paginator.num_pages }}">Último</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                
+
+            {% elif section == "roles" %}
+                <h3>Roles</h3>
+                <a href="{% url 'crear_rol' %}" class="btn btn-success btn-circular">
+                    <i class="fas fa-plus"></i>
+                </a>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Visible</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rol in roles %}
+                        <tr>
+                            <td>{{ rol.rol }}</td>
+                            <td>{{ rol.descripcion }}</td>
+                            <td>{{ rol.visible|yesno:"Sí,No" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <nav>
+                    <ul class="pagination">
+                        {% if roles.has_previous %}
+                            <li class="page-item"><a class="page-link" href="?page_roles=1">Primero</a></li>
+                            <li class="page-item"><a class="page-link" href="?page_roles={{ roles.previous_page_number }}">Anterior</a></li>
+                        {% endif %}
+                
+                        <li class="page-item disabled">
+                            <span class="page-link">Página {{ roles.number }} de {{ roles.paginator.num_pages }}</span>
+                        </li>
+                
+                        {% if roles.has_next %}
+                            <li class="page-item"><a class="page-link" href="?page_roles={{ roles.next_page_number }}">Siguiente</a></li>
+                            <li class="page-item"><a class="page-link" href="?page_roles={{ roles.paginator.num_pages }}">Último</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% else %}
+                <p class="text-muted">Seleccione una opción del menú lateral.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
