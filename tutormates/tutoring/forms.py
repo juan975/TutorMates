@@ -11,7 +11,7 @@ class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Repite la contraseña', widget=forms.PasswordInput)
     rol = forms.ModelChoiceField(
-        queryset=Rol.objects.filter(visible=True), #Filtrar lo roles que son visibles
+        queryset=Rol.objects.filter(visible=True), #Filtrar lo roles que son visibles   
         label="Rol",
         empty_label="Seleccione un rol"
     )

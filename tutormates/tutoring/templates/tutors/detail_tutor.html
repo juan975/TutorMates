@@ -1,32 +1,50 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}Perfil del Tutor{% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container mt-5">
     <h1 class="text-center mb-4">{{ tutor.first_name }} {{ tutor.last_name }}</h1>
 
-    <div class="row mb-4">
-        <div class="col-md-4">
+    <div class="row">
+        <!-- Imagen de perfil -->
+        <div class="col-md-4 text-center">
             {% if tutor.profile.profile_picture %}
-            <img src="{{ tutor.profile.profile_picture.url }}" alt="Imagen de perfil" class="img-thumbnail">
+                <img src="{{ tutor.profile.profile_picture.url }}" alt="Imagen de perfil" class="profile-img img-thumbnail">
             {% else %}
-            <p>Sin imagen de perfil</p>
+                <img src="{% static 'images/default_perfil.jpg' %}" alt="Imagen predeterminada" class="profile-img img-thumbnail">
             {% endif %}
         </div>
-        <div class="col-md-8">
-            <p><strong>Correo Electrónico:</strong> {{ tutor.email }}</p>
-            <p><strong>Biografía:</strong> {{ tutor.profile.bio }}</p>
+
+        <!-- Información del Tutor -->
+        <div class="col-md-8 d-flex flex-column justify-content-center">
+            <p><i class="fas fa-envelope"></i> <strong>Correo:</strong> {{ tutor.email }}</p>
+            <p><i class="fas fa-user"></i> <strong>Biografía:</strong> {{ tutor.profile.bio|default:"No disponible" }}</p>
         </div>
     </div>
 
-    <h2 class="mb-3">Tutorías Creadas</h2>
-    <ul>
+    <!-- Sección de Tutorías -->
+    <h2 class="mt-5 mb-3">Tutorías Creadas</h2>
+    <div class="d-flex flex-wrap justify-content-start">
         {% for tutoria in tutorias %}
-        <li>
-            <a href="{% url 'detalle_tutoria' tutoria.id %}">{{ tutoria.titulo }}</a>
-        </li>
+        <div class="tutoria-card-container">
+            <a href="{% url 'detalle_tutoria' tutoria.id %}" class="text-decoration-none">
+                <div class="card tutoria-card shadow-sm">
+                    {% if tutoria.imagen %}
+                        <img src="{{ tutoria.imagen.url }}" class="card-img-top tutoria-img" alt="{{ tutoria.titulo }}">
+                    {% else %}
+                        <img src="{% static 'images/default_tutoria.jpg' %}" class="card-img-top tutoria-img" alt="Imagen Predeterminada">
+                    {% endif %}
+                    <div class="card-body text-center">
+                        <h6 class="card-title text-dark">{{ tutoria.titulo }}</h6>
+                        <p class="card-text text-muted">{{ tutoria.categoria.nombre }}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% empty %}
+        <p class="text-muted">Este tutor aún no ha creado tutorías.</p>
         {% endfor %}
-    </ul>
+    </div>
 </div>
 {% endblock %}

@@ -1,63 +1,389 @@
-/* Personalización de la barra de navegación */
+/* Base */
 
 html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .full-screen-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-  
-  .text-center {
-    position: relative;
-    z-index: 1;
-  }
-  
-  .d-flex {
-    height: 100vh; /* Asegura que el contenedor de texto ocupe toda la altura de la pantalla */
-  }
-.navbar-custom {
-    background-color: #013750;
-    height: 80px; /* Incrementa la altura de la barra */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
 }
 
-.navbar-custom .navbar-brand {
-    font-size: 1.5rem;
-    color: white;
+.content {
+  flex: 1; /* Ocupa el espacio disponible */
 }
 
-.navbar-custom .navbar-nav .nav-link {
-    color: white;
-}
-
-.navbar-custom .navbar-brand img {
-    width: 50px; /* Aumenta ligeramente el tamaño del logo */
-    height: 50px;
-}
-
-.footer-custom {
-    background-color: #013750;
-    color: white;
-}
-
-.custom-greeting {
-    color: white;
+footer {
+  background-color: #013750 !important;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  width: 100%;
+  position: relative;
+  bottom: 0;
 }
 
 
-/* Fondo de pantalla para la página de inicio */
-body {
-    background-image: url("{% static 'images/fondoInicio.png' %}");
-    background-size: cover; /* Para cubrir toda la pantalla */
-    background-position: center; /* Centra la imagen */
-    background-repeat: no-repeat; /* No repite la imagen */
+/* 🟢 PERSONALIZACIÓN DE LA BARRA DE NAVEGACIÓN */
+
+.navbar {
+  background-color: #013750 !important; /* Cambia el color de fondo */
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar .nav-link, 
+.navbar .navbar-brand, 
+.navbar .navbar-text {
+    color: #ffffff !important; /* Cambia el color del texto */
+}
+
+.navbar .nav-link:hover {
+    color: #00988D !important; /* Cambia el color del texto al pasar el mouse */
+}
+
+.bg-light {
+  background-color: #013750  !important; /* Cambia el color de fondo */
+  color: #ffffff;
+}
+
+/*Icono de la barra de navegación*/
+.icono-img {
+  width: 50px;
+  height: 60px;
+}
+
+
+/* 🟢 LISTADO DE TUTORÍAS */
+
+/* Estilo para el cuadrado gris de la categoría */
+.custom-badge {
+  background-color: #2C6B74;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 15px; /* Bordes redondeados */
+  font-size: 1rem; /* Tamaño de texto */
+  display: inline-block;
+  max-width: 300px; /* Ancho máximo */
+  word-wrap: break-word; /* Permite saltos de línea */
+  text-align: center; /* Centrar texto */
+}
+
+/* Aumentar el tamaño del filtro de categorías */
+.custom-badge {
+  width: 150px; /* Ajusta este valor según el diseño */
+  max-width: 100%; /* Asegura que no se desborde */
+  font-size: 1rem; /* Aumenta el tamaño del texto si es necesario */
+  background-color: #9b9b9b;
+}
+
+.me-3{
+  width: 170px;
+}
+
+.buscar{
+  width: 300px;
+}
+
+
+/* Estilo para los botones */
+.btn-custom {
+  background-color: #00988D;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 20px;
+  transition: background-color 0.3s ease;
+}
+
+/* Estilo para el botón de buscar */
+.btn-buscar {
+  background-color: #013750; /* Color personalizado */
+  color: white; /* Color del texto */
+  border: none; /* Sin bordes */
+  transition: background-color 0.3s ease; /* Animación */
+}
+
+.btn-buscar:hover {
+  background-color: #007A6D; /* Color al pasar el cursor */
+}
+
+/* Estilo para el ícono de la lupa */
+.input-group-text {
+  background-color: #f1f1f1; /* Fondo personalizado */
+  color: black; /* Color del ícono */
+  border: none; /* Sin bordes */
+}
+
+.btn-custom:hover {
+  background-color: #007a70; /* Un poco más oscuro al pasar el cursor */
+  color: white;
+}
+
+.tutoria-img {
+  width: 270px;
+  height: 270px;
+  object-fit: cover; /* Asegura que la imagen se recorte adecuadamente */
+  border-radius: 8px; /* Redondea las esquinas */
+}
+
+/* Imagen predeterminada */
+.default-img {
+  width: 380px;
+  height: 380px;
+  object-fit: contain; /* Ajusta la imagen sin recortarla */
+  border-radius: 8px;
+  background-color: #f0f0f0; /* Fondo gris claro opcional */
+}
+
+
+/* Sección para listar tutores */
+
+.tutor-img {
+  width: 150px;
+  height: 150px;
+}
+
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #f8f9fa; /* Fondo claro */
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn-custom {
+  background-color: #00988D;
+  color: white;
+  border-radius: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-custom:hover {
+  background-color: #007A6D;
+  color: white;
+}
+
+
+
+/*Panel de Administrador*/
+
+/* Sidebar */
+.sidebar {
+  position: fixed; /* Fija la sidebar */
+  top: 0; /* Coloca la sidebar justo debajo de la navbar */
+  left: 0;
+  width: 250px; /* Ancho fijo de la sidebar */
+  height: 100%; /* Ocupa toda la pantalla menos la navbar */
+  background-color: #2C6B74; /* Color oscuro para la sidebar */
+  color: white;
+  padding-top: 20px; /* Espaciado para los elementos internos */
+  overflow-y: auto; /* Permite desplazamiento si hay mucho contenido */
+}
+
+.content_sidebar{
+  position: relative; /* Asegura que el top funcione */
+  top: 90px;
+}
+
+/* Ajusta el contenido principal para que no quede debajo de la sidebar */
+.col-md-9 {
+  margin-left: 260px; /* Deja espacio para la sidebar */
+  padding: 20px;
+}
+
+/* Enlaces del sidebar */
+.sidebar .nav-link {
+  padding: 10px;
+  font-size: 16px;
+  display: block;
+}
+
+.sidebar .nav-link:hover, .sidebar .nav-link.active {
+  background-color: #00988D;
+  color: white !important;
+  border-radius: 5px;
+}
+
+/* Botón circular alineado a la derecha */
+.btn-circular {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  padding: 0;
+  position: fixed;
+  right: 20px;  /* Alineado a la derecha */
+  bottom: 70px; /* Posicionado en la parte inferior */
+  z-index: 1000;
+}
+
+/* Ajuste de icono */
+.btn-circular i {
+  color: white;
+}
+
+/* Efecto hover */
+.btn-circular:hover {
+  background-color: #007a6d;
+}
+
+
+
+
+/* 🟢 MIS TUTORIAS */
+.card-img-top {
+  height: 250px; /* Ajusta la altura a lo que prefieras */
+  object-fit: cover; /* Recorta la imagen sin deformarla */
+}
+
+.btn-ver-detalle {
+  background-color: #00988D;  /* Color personalizado */
+  border-radius: 20px;
+}
+
+.btn-ver-detalle:hover {
+  background-color: #1f4d52; /* Color más oscuro al pasar el mouse */
+  color: white;
+}
+
+.btn-anular{
+  border-radius: 20px;
+}
+
+
+/* 🟢 PERFIL */
+/* Imagen de perfil */
+.profile-img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover; /* Ajusta la imagen sin deformarla */
+  border: 3px solid #00988D; /* Borde para destacar la imagen */
+}
+
+/* Botón personalizado */
+.btn-custom {
+  background-color: #00988D;
+  color: white;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-custom:hover {
+  background-color: #007A6D;
+  color: white;
+}
+
+/* 🟢 CREACIÓN DE TUTORIA */
+/* Estilos personalizados para botones y cabeceras */
+.bg-custom {
+  background-color: #00988D;
+}
+
+.btn-custom {
+  background-color: #00988D;
+  color: white;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-custom:hover {
+  background-color: #007A6D;
+  color: white;
+}
+
+/* Tabla responsive */
+.table-responsive {
+  overflow-x: auto;
+}
+
+/* Limitar la descripción de las tutorías en la tabla */
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+/* 🟢 DETALLE DE TUTOR */
+/* Estilo para la imagen de perfil */
+.profile-img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Contenedor de las tarjetas */
+.tutoria-card-container {
+  width: 250px;
+  margin: 10px;
+}
+
+/* Diseño de la tarjeta de tutoría */
+.tutoria-card {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out, box-shadow 0.3s ease;
+  text-align: center;
+}
+
+.tutoria-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Texto de la tarjeta */
+.card-body {
+  padding: 10px;
+}
+
+
+/* 🟢 DETALLE DE TUTORIA */
+/* Tarjeta del tutor */
+.tutor-card-container {
+  max-width: 500px;
+  margin: auto;
+}
+
+.tutor-card {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out, box-shadow 0.3s ease;
+  background: #f8f9fa;
+}
+
+.tutor-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Imagen del tutor */
+.tutor-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border: 3px solid #00988D;
+}
+
+/* 🟢 EDICIÓN DE TUTORIA */
+/* Imagen de perfil en edición */
+.profile-img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border: 3px solid #00988D;
+  margin-bottom: 15px;
+}
+
+/* Botones con espacio */
+.btn {
+  padding: 10px 20px;
+  font-size: 16px;
 }

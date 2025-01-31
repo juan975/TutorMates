@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
@@ -167,10 +168,28 @@ def eliminar_tutoria(request, tutoria_id):
 #Vista para ver las tutorias  
 @login_required
 def listar_tutorias(request):
+    query = request.GET.get('q', '')  # Obtener el término de búsqueda
+    categoria_id = request.GET.get('categoria', '')  # Obtener el ID de la categoría seleccionada
+
+    # Obtener todas las tutorías
     tutorias = Tutoria.objects.all()
-    return render(request, 'tutorial/list_tutorials.html',{
-        'tutorias':tutorias,
+
+    # Filtrar por término de búsqueda
+    if query:
+        tutorias = tutorias.filter(titulo__icontains=query)
+
+    # Filtrar por categoría si se seleccionó una
+    if categoria_id:
+        tutorias = tutorias.filter(categoria_id=categoria_id)
+
+    # Obtener todas las categorías para el filtro
+    categorias = Categoria.objects.all()
+
+    return render(request, 'tutorial/list_tutorials.html', {
+        'tutorias': tutorias,
+        'categorias': categorias,
     })
+
 
 # Detalle de una tutoría
 def detalle_tutoria(request, tutoria_id):
@@ -235,7 +254,6 @@ def anular_inscripcion(request, inscripcion_id):
 
 # VISTAS ADMINISTRADOR
 
-# Vista de admin
 @login_required
 @admin_required
 def admin_dashboard(request):
@@ -244,12 +262,27 @@ def admin_dashboard(request):
     roles = Rol.objects.all()
     tutorias = Tutoria.objects.all()
 
+    # Número de elementos por página
+    items_per_page = 15  
+
+    # Función para paginar cualquier queryset
+    def paginate_queryset(queryset, page_number):
+        paginator = Paginator(queryset, items_per_page)
+        return paginator.get_page(page_number)
+
+    # Obtener páginas paginadas
+    usuarios_page = paginate_queryset(usuarios, request.GET.get('page_usuarios', 1))
+    tutorias_page = paginate_queryset(tutorias, request.GET.get('page_tutorias', 1))
+    categorias_page = paginate_queryset(categorias, request.GET.get('page_categorias', 1))
+    roles_page = paginate_queryset(roles, request.GET.get('page_roles', 1))
+
     context = {
-        'usuarios': usuarios,
-        'categorias': categorias,
-        'roles': roles,
-        'tutorias': tutorias,
+        'usuarios': usuarios_page,
+        'categorias': categorias_page,
+        'roles': roles_page,
+        'tutorias': tutorias_page,
     }
+
     return render(request, 'admin/admin_dashboard.html', context)
 
 # Vist para editar usuarios
@@ -334,3 +367,19 @@ def crear_rol(request):
     else:
         form = RolForm()
     return render(request, 'admin/create_role.html', {'form': form})
+
+# Vista de Admin con Sidebar
+@login_required
+@admin_required
+def admin_dashboard(request):
+    section = request.GET.get('section', 'usuarios')  # Por defecto, muestra "Usuarios"
+
+    context = {
+        'usuarios': User.objects.all(),
+        'categorias': Categoria.objects.all(),
+        'roles': Rol.objects.all(),
+        'tutorias': Tutoria.objects.all(),
+        'section': section,  # Enviar la sección seleccionada
+    }
+    
+    return render(request, 'admin/admin_dashboard.html', context)

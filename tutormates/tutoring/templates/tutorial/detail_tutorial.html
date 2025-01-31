@@ -1,31 +1,54 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}Detalle de la Tutoría{% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container mt-5">
     <h1 class="text-center mb-4">{{ tutoria.titulo }}</h1>
 
     <div class="row">
-        <div class="col-md-8">
-            <p><strong>Descripción:</strong> {{ tutoria.descripcion }}</p>
-            <p><strong>Fecha:</strong> {{ tutoria.dia }}</p>
-            <p><strong>Hora:</strong> {{ tutoria.hora }}</p>
-            <p><strong>Cupos:</strong> {{ tutoria.cupos }}</p>
-            <p><strong>Categoría:</strong> {{ tutoria.categoria.nombre }}</p>
-            <p><strong>Tutor:</strong> 
-                <a href="{% url 'detalle_tutor' tutoria.tutor.id %}">
-                    {{ tutoria.tutor.first_name }} {{ tutoria.tutor.last_name }}
-                </a>
-            </p>
-        </div>
-        <div class="col-md-4">
+        <!-- Imagen de la tutoría -->
+        <div class="col-md-4 text-center">
             {% if tutoria.imagen %}
-            <img src="{{ tutoria.imagen.url }}" alt="Imagen de la tutoría" class="img-thumbnail">
+                <img src="{{ tutoria.imagen.url }}" alt="Imagen de la tutoría" class="tutoria-img img-fluid rounded">
             {% else %}
-            <p>Sin imagen</p>
+                <img src="{% static 'images/default_tutoria.jpg' %}" alt="Imagen predeterminada" class="tutoria-img img-fluid rounded">
             {% endif %}
         </div>
+
+        <!-- Información de la tutoría -->
+        <div class="col-md-8">
+            <p><strong>Descripción:</strong> {{ tutoria.descripcion }}</p>
+            <p><i class="fas fa-calendar"></i> <strong>Fecha:</strong> {{ tutoria.dia }}</p>
+            <p><i class="fas fa-clock"></i> <strong>Hora:</strong> {{ tutoria.hora }}</p>
+            <p><i class="fas fa-users"></i> <strong>Cupos:</strong> {{ tutoria.cupos }}</p>
+            <p><i class="fas fa-tags"></i> <strong>Categoría:</strong> {{ tutoria.categoria.nombre }}</p>
+        </div>
+    </div>
+
+    <!-- Tarjeta del Tutor -->
+    <div class="tutor-card-container mt-5">
+        <a href="{% url 'detalle_tutor' tutoria.tutor.id %}" class="text-decoration-none">
+            <div class="card tutor-card shadow-sm">
+                <div class="row g-0 align-items-center">
+                    <!-- Imagen del tutor -->
+                    <div class="col-md-4 text-center p-3">
+                        {% if tutoria.tutor.profile.profile_picture %}
+                            <img src="{{ tutoria.tutor.profile.profile_picture.url }}" class="tutor-img rounded-circle" alt="{{ tutoria.tutor.first_name }}">
+                        {% else %}
+                            <img src="{% static 'images/default_perfil.jpg' %}" class="tutor-img rounded-circle" alt="Imagen Predeterminada">
+                        {% endif %}
+                    </div>
+
+                    <!-- Información del tutor -->
+                    <div class="col-md-8 p-3">
+                        <h5 class="text-dark">{{ tutoria.tutor.first_name }} {{ tutoria.tutor.last_name }}</h5>
+                        <p class="text-muted mb-2"><i class="fas fa-envelope"></i> {{ tutoria.tutor.email }}</p>
+                        <p class="text-muted"><i class="fas fa-user"></i> {{ tutoria.tutor.profile.bio|default:"No disponible" }}</p>
+                    </div>
+                </div>
+            </div>
+        </a>
     </div>
 </div>
 {% endblock %}
